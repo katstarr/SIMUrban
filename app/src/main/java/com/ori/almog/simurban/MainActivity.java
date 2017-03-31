@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -58,5 +59,10 @@ public class MainActivity extends Activity {
         }
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        this.gameManager.back();
     }
 }

@@ -31,8 +31,7 @@ class DrawManager{
     public DrawManager(ViewBase init){
 
         this.base = init;
-
-        this.draws = new ArrayList<Rectangle>();
+        this.resetDraws();
 
         this.paint = new Paint();
         this.paint.setColor(0xffff0000);
@@ -42,6 +41,10 @@ class DrawManager{
         this.BLACK.setTextSize(100);
 
         this.cursor = new Rectangle(new Point(0,0), new Point(100,100), 0xffff0000, "");
+    }
+
+    public void resetDraws(){
+        this.draws = new ArrayList<Rectangle>();
     }
 
     public void draw(Canvas canvas) {

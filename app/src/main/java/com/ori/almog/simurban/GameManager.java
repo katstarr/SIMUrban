@@ -108,7 +108,7 @@ public class GameManager {
                     //Propagate delta
 
 
-                    
+
                     //Finalize
 
 
@@ -120,7 +120,7 @@ public class GameManager {
 
                     //Sleep for 1 second (indicate new day..?)
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -134,7 +134,26 @@ public class GameManager {
     //This method should pause the simulation
     public void stop() {
         this.running = false;
-        this.drawManager.draws = new ArrayList<Rectangle>();
+        this.drawManager.resetDraws();
+    }
+
+    //Back button pressed...
+    public void back(){
+        switch(this.state){
+            case GameScreen:
+                this.stop();
+                this.drawManager.base = this.uiProvider.get("MainMenu");
+                this.drawManager.resetDraws();
+                this.state = MainMenu;
+                break;
+            case Options:
+                this.drawManager.base = this.uiProvider.get("MainMenu");
+                this.state = MainMenu;
+                break;
+            case MainMenu:
+                System.exit(0);
+                break;
+        }
     }
 
     public void handle(MotionEvent event){
@@ -185,26 +204,10 @@ public class GameManager {
                 break;
 
             case GameScreen:
-                switch (action){
-                    case "back":
-                        this.state = MainMenu;
-                        this.drawManager.base = this.uiProvider.get("MainMenu");
-                        this.stop();
-                        break;
-                    default:
-                        Toast.makeText(context, "ABC", Toast.LENGTH_SHORT).show();
-                }
+
                 break;
 
             case Options:
-                switch (action){
-                    case "back":
-                        this.state = MainMenu;
-                        this.drawManager.base = this.uiProvider.get("MainMenu");
-                        break;
-                    default:
-                        Toast.makeText(context, "ABC", Toast.LENGTH_SHORT).show();
-                }
                 break;
         }
     }
@@ -245,14 +248,14 @@ class UIProvider {
         //gameScreen.elements.add(new Button(new Point(1080/2, 400), 0x00000000, 0xff513108, "A", 250, amatic, true, "A"));
         //gameScreen.elements.add(new Button(new Point(1080/2, 1000), 0xff715128, 0xfffffaf2, "B", 100, amatic, true, "B"));
         //gameScreen.elements.add(new Button(new Point(1080/2, 1200), 0xff715128, 0xfffffaf2, "C", 100, amatic, true, "C"));
-        gameScreen.elements.add(new Button(new Point(10, 10), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
+        //gameScreen.elements.add(new Button(new Point(10, 10), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
         this.bases.put("GameScreen", gameScreen);
 
         //OPTIONS
         ViewBase optionsScreen = new ViewBase();
         optionsScreen.bg.setColor(0xfffffaf2);
         optionsScreen.elements.add(new Button(new Point(1080/2, 400), 0x00000000, 0xff513108, "Options", 250, amatic, true, "title"));
-        optionsScreen.elements.add(new Button(new Point(10, 10), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
+        //optionsScreen.elements.add(new Button(new Point(10, 10), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
         this.bases.put("OptionsScreen", optionsScreen);
     }
 }
