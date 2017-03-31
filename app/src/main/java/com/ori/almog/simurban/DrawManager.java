@@ -124,9 +124,9 @@ class Button extends Rectangle{
             this.bottomRight = new Point((int) (p.x + length / 2), (int) (p.y + fm.descent));
             this.textSource = p;
         } else {
-            //this.topleft = new Point(p.x, p.y);
-            //this.bottomRight = new Point((int)(p.x + length), (int) (p.y + height));
-            //this.textSource = new Point(p.x, (int) (p.y + height));
+            this.topLeft = new Point(p.x, p.y);
+            this.bottomRight = new Point((int)(p.x + length), (int) (p.y + height));
+            this.textSource = new Point((int) (p.x + length / 2), (int) (p.y - fm.ascent));
         }
     }
 }

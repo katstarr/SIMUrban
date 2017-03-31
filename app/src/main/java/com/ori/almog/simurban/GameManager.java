@@ -62,10 +62,9 @@ public class GameManager {
             case MainMenu:
                     for (int i = 0; i < this.drawManager.base.elements.size(); i++){
                         Rectangle r = this.drawManager.base.elements.get(i);
-                        Log.i("DEBUG", "Trying on: " + r.action);
                         if (within(r.topLeft, r.bottomRight, touch)){
-                            Log.i("DEBUG", "I found: " + r.action);
                             act(r.action);
+                            break;
                         }
                     }
 
@@ -76,6 +75,14 @@ public class GameManager {
                 break;
 
             case GameScreen:
+
+                    for (int i = 0; i <this.drawManager.base.elements.size(); i++){
+                        Rectangle r = this.drawManager.base.elements.get(i);
+                        if (within(r.topLeft, r.bottomRight, touch)){
+                            act(r.action);
+                            break;
+                        }
+                    }
 
                 break;
 
@@ -93,25 +100,38 @@ public class GameManager {
     private boolean within(Point topLeft, Point bottomRight, Point t){
         return t.x >= topLeft.x && t.x <= bottomRight.x && t.y >= topLeft.y && t.y <= bottomRight.y;
     }
-
     private void act(String action){
-        //TODO: Consider switching on state here
-        //TODO: Consider a transition function
+        //TODO: Consider switching on state here3.bn/
 
-        switch (action){
-            case "start":
-                this.state = GameScreen;
-                this.drawManager.base = this.bases.get("GameScreen");
+        switch(this.state){
+            case MainMenu:
+                switch (action){
+                    case "start":
+                        this.state = GameScreen;
+                        this.drawManager.base = this.bases.get("GameScreen");
+                        break;
+                    case "options":
+                        this.state = Options;
+                        break;
+                    case "exit":
+                        System.exit(0);
+                        break;
+                    default:
+                        Log.i("DEBUG", "UNKOWN TRANSITION");
+                        Toast.makeText(context, "I don't know this button", Toast.LENGTH_LONG);
+                }
                 break;
-            case "options":
-                this.state = Options;
+
+            case GameScreen:
+                switch (action){
+                    case "back":
+                        this.state = MainMenu;
+                        this.drawManager.base =this.bases.get("MainMenu");
+                        break;
+                    default:
+                        Toast.makeText(context, "ABC", Toast.LENGTH_LONG);
+                }
                 break;
-            case "exit":
-                System.exit(0);
-                break;
-            default:
-                Log.i("DEBUG", "UNKOWN TRANSITION");
-                Toast.makeText(context, "I don't know this button", Toast.LENGTH_SHORT);
         }
     }
 
@@ -133,10 +153,10 @@ public class GameManager {
         //GAME SCREEN
         ViewBase gameScreen = new ViewBase();
         gameScreen.bg.setColor(0xfffffaf2);
-        gameScreen.elements.add(new Button(new Point(1080/2, 400), 0x00000000, 0xff513108, "A", 250, amatic, true, "title"));
-        gameScreen.elements.add(new Button(new Point(1080/2, 1000), 0xff715128, 0xfffffaf2, "B", 100, amatic, true, "start"));
-        gameScreen.elements.add(new Button(new Point(1080/2, 1200), 0xff715128, 0xfffffaf2, "C", 100, amatic, true, "options"));
-        gameScreen.elements.add(new Button(new Point(1080/2, 1400), 0xff715128, 0xfffffaf2, "D", 100, amatic, true, "exit"));
+        //gameScreen.elements.add(new Button(new Point(1080/2, 400), 0x00000000, 0xff513108, "A", 250, amatic, true, "A"));
+        //gameScreen.elements.add(new Button(new Point(1080/2, 1000), 0xff715128, 0xfffffaf2, "B", 100, amatic, true, "B"));
+        //gameScreen.elements.add(new Button(new Point(1080/2, 1200), 0xff715128, 0xfffffaf2, "C", 100, amatic, true, "C"));
+        gameScreen.elements.add(new Button(new Point(0, 0), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
         this.bases.put("GameScreen", gameScreen);
     }
 }
