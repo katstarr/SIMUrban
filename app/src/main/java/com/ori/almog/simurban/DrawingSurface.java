@@ -30,7 +30,6 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
         }
 
         Log.i("DEBUG", "Starting game manager");
-        this.gameManager.begin();
     }
 
     @Override

@@ -6,12 +6,15 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.provider.Contacts;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.concurrent.RunnableFuture;
 
 import static com.ori.almog.simurban.State.*;
 import static com.ori.almog.simurban.State.MainMenu;
@@ -28,43 +31,65 @@ public class GameManager {
     //The context of the main activity - needed to make toasts
     private Context context;
 
-    //Asset manager is used to get pictures, fonts, etc.
-    private AssetManager assetManager;
-
     //Draw manager is the class responsible for drawing things to the screen
     private DrawManager drawManager;
 
     //The state - where we are. see enum.
     private State state = MainMenu;
 
-    //TODO: take this out to a UIProvider class, or something similar.
-    //Bases are basic UI components attributed to a view by a string. They are presently defined in the init() method of this class.
-    private HashMap<String, ViewBase> bases;
+    //Asset manager is used to get pictures, fonts, etc.
+    private AssetManager assetManager;
+
+    //Provides basic UI elements for soem screen
+    private UIProvider uiProvider;
+
+    private boolean running = false;
+
+    private Random rand;
+
+
 
     public GameManager(Context context){
         this.context = context;
         this.assetManager = context.getAssets();
-        this.bases = new HashMap<String, ViewBase>();
-        this.init();
-        this.drawManager = new DrawManager(this.bases.get("MainMenu"));
+        this.rand = new Random();
+
+        this.uiProvider = new UIProvider(this.assetManager);
+        this.drawManager = new DrawManager(this.uiProvider.get("MainMenu"));
     }
 
     public DrawManager getDrawManager(){
         return this.drawManager;
     }
 
-    /*
-        This method should unpause the simulation
-     */
+    //This method should unpause the simulation
     public void begin() {
+        this.running = true;
 
+        Runnable r = new Runnable(){
+            public void run(){
+                while (running){
+
+                    drawManager.draws.add(new Rectangle(new Point(rand.nextInt(500), rand.nextInt(500)), new Point(500+rand.nextInt(500), 500+rand.nextInt(500)), rand.nextInt(), ""));
+
+                    Log.i("DEBUG", "Made a rect");
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread t = new Thread(r);
+        t.start();
     }
 
-    /*
-        This method should pause the simulation
-     */
+    //This method should pause the simulation
     public void stop() {
-
+        this.running = false;
+        this.drawManager.draws = new ArrayList<Rectangle>();
     }
 
     public void handle(MotionEvent event){
@@ -86,9 +111,7 @@ public class GameManager {
         this.drawManager.cursor.bottomRight.set((int)event.getX()+size, (int)event.getY()+size);
     }
 
-    /*
-        Returns true if the point t is within a rectangle inscribed by topLeft and bottomRight
-     */
+    //Returns true if the point t is within a rectangle inscribed by topLeft and bottomRight
     private boolean within(Point topLeft, Point bottomRight, Point t){
         return t.x >= topLeft.x && t.x <= bottomRight.x && t.y >= topLeft.y && t.y <= bottomRight.y;
     }
@@ -100,17 +123,18 @@ public class GameManager {
                 switch (action){
                     case "start":
                         this.state = GameScreen;
-                        this.drawManager.base = this.bases.get("GameScreen");
+                        this.drawManager.base = this.uiProvider.get("GameScreen");
+                        this.begin();
                         break;
                     case "options":
                         this.state = Options;
-                        this.drawManager.base = this.bases.get("OptionsScreen");
+                        this.drawManager.base = this.uiProvider.get("OptionsScreen");
                         break;
                     case "exit":
                         System.exit(0);
                         break;
                     default:
-                        Log.i("DEBUG", "UNKOWN TRANSITION");
+                        Log.i("DEBUG", "UNKNOWN TRANSITION");
                         Toast.makeText(context, "I don't know this button", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -119,7 +143,8 @@ public class GameManager {
                 switch (action){
                     case "back":
                         this.state = MainMenu;
-                        this.drawManager.base = this.bases.get("MainMenu");
+                        this.drawManager.base = this.uiProvider.get("MainMenu");
+                        this.stop();
                         break;
                     default:
                         Toast.makeText(context, "ABC", Toast.LENGTH_SHORT).show();
@@ -130,7 +155,7 @@ public class GameManager {
                 switch (action){
                     case "back":
                         this.state = MainMenu;
-                        this.drawManager.base = this.bases.get("MainMenu");
+                        this.drawManager.base = this.uiProvider.get("MainMenu");
                         break;
                     default:
                         Toast.makeText(context, "ABC", Toast.LENGTH_SHORT).show();
@@ -138,15 +163,27 @@ public class GameManager {
                 break;
         }
     }
+}
 
-    //TODO: Create a class for this...
-    /*
-        Defines UI elements for variosu screens
-     */
-    private void init(){
+class UIProvider {
+
+    //Bases are basic UI components attributed to a view by a string. They are defined in the init() method of this class.
+    private HashMap<String, ViewBase> bases;
+
+    public UIProvider(AssetManager assetManager){
+        this.bases = new HashMap<String, ViewBase>();
+        this.init(assetManager);
+    }
+
+    public ViewBase get(String view){
+        return this.bases.get(view);
+    }
+
+    //Defines UI elements for various screens
+    private void init(AssetManager assetManager){
 
         Rect temp = new Rect();
-        Typeface amatic = Typeface.createFromAsset(this.assetManager, "fonts/AmaticSC-Bold.ttf");
+        Typeface amatic = Typeface.createFromAsset(assetManager, "fonts/AmaticSC-Bold.ttf");
 
         //MAIN MENU
         ViewBase mainMenu = new ViewBase();
@@ -175,7 +212,6 @@ public class GameManager {
     }
 }
 
-//TODO: Put this in the same external class as init()
 class ViewBase {
     public ArrayList<Rectangle> elements;
     public Paint bg;
