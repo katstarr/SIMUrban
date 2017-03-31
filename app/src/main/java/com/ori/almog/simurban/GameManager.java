@@ -66,14 +66,59 @@ public class GameManager {
     public void begin() {
         this.running = true;
 
-        Runnable r = new Runnable(){
+        Runnable game = new Runnable(){
             public void run(){
+
+
+                //Create root controller here
+
+
+                //Create relays here
+
+
+                //Create subsystems here
+
+
+
+                //Bind relays
+
+
+                //Enter game loop (each loop = one day)
                 while (running){
 
-                    drawManager.draws.add(new Rectangle(new Point(rand.nextInt(500), rand.nextInt(500)), new Point(500+rand.nextInt(500), 500+rand.nextInt(500)), rand.nextInt(), ""));
 
+                    //Get stimuli from buffer
+
+
+
+                    //Respond internally
+
+
+
+                    //Upload to relay
+
+
+
+                    //Root controller marix work
+
+
+                    //Create Delta instance
+
+
+                    //Propagate delta
+
+
+                    
+                    //Finalize
+
+
+
+
+                    //Just for fun (remove this later)
+                    drawManager.draws.add(new Rectangle(new Point(rand.nextInt(500), rand.nextInt(500)), new Point(500+rand.nextInt(500), 500+rand.nextInt(500)), rand.nextInt(), ""));
                     Log.i("DEBUG", "Made a rect");
 
+                    //Sleep for 1 second (indicate new day..?)
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -82,7 +127,7 @@ public class GameManager {
                 }
             }
         };
-        Thread t = new Thread(r);
+        Thread t = new Thread(game);
         t.start();
     }
 
