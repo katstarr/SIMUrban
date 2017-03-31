@@ -71,7 +71,7 @@ public class GameManager {
 
 
                 //Create root controller here
-
+                RootController rc = new RootController();
 
                 //Create relays here
 

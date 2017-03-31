@@ -13,13 +13,41 @@ public class RootController {
 
     private void init(){
 
-        HashMap<String, Change> school = new HashMap<>();
-        school.put()
+        //playground size increases enrollment with a multiplier of 1
+        put("playGroundSize", "enrollment", new Change(Direction.Increases, 1.0));
 
+        //playground size increases overall happiness with a multiplier of 1
+        put("playGroundSize", "overallHappiness", new Change(Direction.Increases, 1.0));
+
+        //TODO: Add the rest of them
+
+    }
+
+    private void put(String source, String affects, Change relationship){
+        if (this.matrix.containsKey(source)){
+            this.matrix.get(source).put(affects, relationship);
+        }
+
+        else {
+            this.matrix.put(source, new HashMap<String, Change>());
+            this.matrix.get(source).put(affects, relationship);
+        }
     }
 
 }
 
+enum Direction{
+    Increases,
+    Decreases
+};
+
 class Change {
 
+    public Direction direction;
+    public double multiplier;
+
+    public Change(Direction direction, double multiplier){
+        this.direction = direction;
+        this.multiplier = multiplier;
+    }
 }
