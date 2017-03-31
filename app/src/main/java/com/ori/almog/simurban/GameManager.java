@@ -120,7 +120,7 @@ public class GameManager {
 
                     //Sleep for 1 second (indicate new day..?)
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -134,7 +134,6 @@ public class GameManager {
     //This method should pause the simulation
     public void stop() {
         this.running = false;
-        this.drawManager.resetDraws();
     }
 
     //Back button pressed...
@@ -219,7 +218,7 @@ class UIProvider {
     private HashMap<String, ViewBase> bases;
 
     public UIProvider(AssetManager assetManager){
-        this.bases = new HashMap<String, ViewBase>();
+        this.bases = new HashMap<>();
         this.init(assetManager);
     }
 
@@ -230,7 +229,6 @@ class UIProvider {
     //Defines UI elements for various screens
     private void init(AssetManager assetManager){
 
-        Rect temp = new Rect();
         Typeface amatic = Typeface.createFromAsset(assetManager, "fonts/AmaticSC-Bold.ttf");
 
         //MAIN MENU
@@ -265,7 +263,7 @@ class ViewBase {
     public Paint bg;
 
     public ViewBase(){
-        this.elements = new ArrayList<Rectangle>();
+        this.elements = new ArrayList<>();
         this.bg = new Paint();
         this.bg.setColor(0xff000000);
     };

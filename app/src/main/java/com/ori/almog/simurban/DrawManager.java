@@ -3,12 +3,8 @@ package com.ori.almog.simurban;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.Log;
-import android.widget.TextClock;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -44,7 +40,7 @@ class DrawManager{
     }
 
     public void resetDraws(){
-        this.draws = new ArrayList<Rectangle>();
+        this.draws = new ArrayList<>();
     }
 
     public void draw(Canvas canvas) {
