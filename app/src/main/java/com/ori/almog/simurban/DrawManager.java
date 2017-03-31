@@ -26,13 +26,13 @@ class DrawManager{
     public ViewBase base;
     public ArrayList<Rectangle> draws;
 
+    public Rectangle cursor;
+
     public DrawManager(ViewBase init){
 
         this.base = init;
 
         this.draws = new ArrayList<Rectangle>();
-        this.draws.add(new Rectangle(new Point(0,0), new Point(100,100), 0xffff0000, ""));
-
 
         this.paint = new Paint();
         this.paint.setColor(0xffff0000);
@@ -40,6 +40,8 @@ class DrawManager{
         this.BLACK = new Paint();
         this.BLACK.setColor(0xff000000);
         this.BLACK.setTextSize(100);
+
+        this.cursor = new Rectangle(new Point(0,0), new Point(100,100), 0xffff0000, "");
     }
 
     public void draw(Canvas canvas) {
@@ -59,6 +61,8 @@ class DrawManager{
             Rectangle e = this.draws.get(i);
             drawEntity(e, canvas);
         }
+
+        this.drawEntity(this.cursor, canvas);
     }
 
     private void drawEntity(Rectangle e, Canvas canvas){

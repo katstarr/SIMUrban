@@ -25,15 +25,23 @@ enum State {
 
 public class GameManager {
 
+    //The context of the main activity - needed to make toasts
     private Context context;
+
+    //Asset manager is used to get pictures, fonts, etc.
     private AssetManager assetManager;
+
+    //Draw manager is the class responsible for drawing things to the screen
     private DrawManager drawManager;
+
+    //The state - where we are. see enum.
     private State state = MainMenu;
 
+    //TODO: take this out to a UIProvider class, or something similar.
+    //Bases are basic UI components attributed to a view by a string. They are presently defined in the init() method of this class.
     private HashMap<String, ViewBase> bases;
 
     public GameManager(Context context){
-
         this.context = context;
         this.assetManager = context.getAssets();
         this.bases = new HashMap<String, ViewBase>();
@@ -45,10 +53,16 @@ public class GameManager {
         return this.drawManager;
     }
 
+    /*
+        This method should unpause the simulation
+     */
     public void begin() {
 
     }
 
+    /*
+        This method should pause the simulation
+     */
     public void stop() {
 
     }
@@ -58,50 +72,28 @@ public class GameManager {
         Point touch = new Point((int)event.getX(), (int)event.getY());
         Log.i("DEBUG", "Pressed: " + touch.toString());
 
-        switch(this.state){
-            case MainMenu:
-                    for (int i = 0; i < this.drawManager.base.elements.size(); i++){
-                        Rectangle r = this.drawManager.base.elements.get(i);
-                        if (within(r.topLeft, r.bottomRight, touch)){
-                            act(r.action);
-                            break;
-                        }
-                    }
-
+        for (int i = 0; i < this.drawManager.base.elements.size(); i++){
+            Rectangle r = this.drawManager.base.elements.get(i);
+            if (within(r.topLeft, r.bottomRight, touch)){
+                press(r.action);
                 break;
-
-            case Options:
-
-                break;
-
-            case GameScreen:
-
-                    for (int i = 0; i <this.drawManager.base.elements.size(); i++){
-                        Rectangle r = this.drawManager.base.elements.get(i);
-                        if (within(r.topLeft, r.bottomRight, touch)){
-                            act(r.action);
-                            break;
-                        }
-                    }
-
-                break;
-
-            case SubsystemView:
-
-                break;
+            }
         }
 
+        //update cursor
         int size = 20;
-        Rectangle x = this.drawManager.draws.get(0);
-        x.topLeft.set((int)event.getX()-size, (int)event.getY()-size);
-        x.bottomRight.set((int)event.getX()+size, (int)event.getY()+size);
+        this.drawManager.cursor.topLeft.set((int)event.getX()-size, (int)event.getY()-size);
+        this.drawManager.cursor.bottomRight.set((int)event.getX()+size, (int)event.getY()+size);
     }
 
+    /*
+        Returns true if the point t is within a rectangle inscribed by topLeft and bottomRight
+     */
     private boolean within(Point topLeft, Point bottomRight, Point t){
         return t.x >= topLeft.x && t.x <= bottomRight.x && t.y >= topLeft.y && t.y <= bottomRight.y;
     }
-    private void act(String action){
-        //TODO: Consider switching on state here3.bn/
+
+    private void press(String action){
 
         switch(this.state){
             case MainMenu:
@@ -112,13 +104,14 @@ public class GameManager {
                         break;
                     case "options":
                         this.state = Options;
+                        this.drawManager.base = this.bases.get("OptionsScreen");
                         break;
                     case "exit":
                         System.exit(0);
                         break;
                     default:
                         Log.i("DEBUG", "UNKOWN TRANSITION");
-                        Toast.makeText(context, "I don't know this button", Toast.LENGTH_LONG);
+                        Toast.makeText(context, "I don't know this button", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -126,16 +119,30 @@ public class GameManager {
                 switch (action){
                     case "back":
                         this.state = MainMenu;
-                        this.drawManager.base =this.bases.get("MainMenu");
+                        this.drawManager.base = this.bases.get("MainMenu");
                         break;
                     default:
-                        Toast.makeText(context, "ABC", Toast.LENGTH_LONG);
+                        Toast.makeText(context, "ABC", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case Options:
+                switch (action){
+                    case "back":
+                        this.state = MainMenu;
+                        this.drawManager.base = this.bases.get("MainMenu");
+                        break;
+                    default:
+                        Toast.makeText(context, "ABC", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
 
     //TODO: Create a class for this...
+    /*
+        Defines UI elements for variosu screens
+     */
     private void init(){
 
         Rect temp = new Rect();
@@ -156,11 +163,19 @@ public class GameManager {
         //gameScreen.elements.add(new Button(new Point(1080/2, 400), 0x00000000, 0xff513108, "A", 250, amatic, true, "A"));
         //gameScreen.elements.add(new Button(new Point(1080/2, 1000), 0xff715128, 0xfffffaf2, "B", 100, amatic, true, "B"));
         //gameScreen.elements.add(new Button(new Point(1080/2, 1200), 0xff715128, 0xfffffaf2, "C", 100, amatic, true, "C"));
-        gameScreen.elements.add(new Button(new Point(0, 0), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
+        gameScreen.elements.add(new Button(new Point(10, 10), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
         this.bases.put("GameScreen", gameScreen);
+
+        //OPTIONS
+        ViewBase optionsScreen = new ViewBase();
+        optionsScreen.bg.setColor(0xfffffaf2);
+        optionsScreen.elements.add(new Button(new Point(1080/2, 400), 0x00000000, 0xff513108, "Options", 250, amatic, true, "title"));
+        optionsScreen.elements.add(new Button(new Point(10, 10), 0xff715128, 0xfffffaf2, "Back", 100, amatic, false, "back"));
+        this.bases.put("OptionsScreen", optionsScreen);
     }
 }
 
+//TODO: Put this in the same external class as init()
 class ViewBase {
     public ArrayList<Rectangle> elements;
     public Paint bg;

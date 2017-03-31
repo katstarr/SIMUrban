@@ -33,7 +33,6 @@ public class DrawThread extends Thread{
         while(this.running){
             canvas = this.surfaceHolder.lockCanvas();
             if (canvas != null){
-                //Log.i("DEBUG", "I am alive");
                 this.drawManager.draw(canvas);
                 this.surfaceHolder.unlockCanvasAndPost(canvas);
             }
