@@ -29,7 +29,7 @@ public class RootController extends Subsystem {
         put("mallSize","numberofSassyTeens", new Change(Direction.Increases,1.0));
         put("percentofNoodles","churchSize",new Change(Direction.Increases,1.0));
         put("churchSize","overallHappiness",new Change(Direction.Increases,1.0));
-        
+
         //TODO: Add the rest of them
 
     }
@@ -44,5 +44,4 @@ public class RootController extends Subsystem {
             this.matrix.get(source).put(affects, relationship);
         }
     }
-
 }
