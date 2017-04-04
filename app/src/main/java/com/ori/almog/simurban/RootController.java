@@ -2,13 +2,18 @@ package com.ori.almog.simurban;
 
 import java.util.HashMap;
 
-public class RootController {
+public class RootController extends Subsystem {
 
     private HashMap<String, HashMap<String, Change>> matrix;
 
     public RootController(){
         this.matrix = new HashMap<>();
         this.init();
+    }
+
+    @Override
+    protected void compute() {
+
     }
 
     private void init(){
@@ -34,20 +39,4 @@ public class RootController {
         }
     }
 
-}
-
-enum Direction{
-    Increases,
-    Decreases
-};
-
-class Change {
-
-    public Direction direction;
-    public double multiplier;
-
-    public Change(Direction direction, double multiplier){
-        this.direction = direction;
-        this.multiplier = multiplier;
-    }
 }
