@@ -2,13 +2,18 @@ package com.ori.almog.simurban;
 
 import java.util.HashMap;
 
-public class RootController extends Subsystem {
+class RootController extends Subsystem {
 
     private HashMap<String, HashMap<String, Change>> matrix;
 
     public RootController(){
         this.matrix = new HashMap<>();
         this.init();
+    }
+
+    @Override
+    protected void destination(Stimulus s) {
+
     }
 
     @Override
@@ -24,7 +29,7 @@ public class RootController extends Subsystem {
         //playground size increases overall happiness with a multiplier of 1
         put("playGroundSize", "overallHappiness", new Change(Direction.Increases, 1.0));
 
-        //mall size increases overallHappiness with mutipler of 2.0
+        //mall size increases overallHappiness with multiplier of 2.0
         put("mallSize", "overallHappiness", new Change(Direction.Increases, 2.0));
         put("mallSize", "numberOfSassyTeens", new Change(Direction.Increases, 1.0));
         put("percentOfNoodles", "churchSize", new Change(Direction.Increases, 1.0));

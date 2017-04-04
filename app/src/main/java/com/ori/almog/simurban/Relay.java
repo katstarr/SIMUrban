@@ -4,28 +4,31 @@ import java.util.ArrayList;
 
 public class Relay extends Communicator {
 
+    private ArrayList<Communicator> comms;
+
     public Relay(){}
 
-    protected void sendUp(Stimulus s){
-        for (Communicator r : this.upRelays){
+    protected void propagate(Stimulus s){
+
+        switch(s.direction){
+
+            case Up:
+                this.comms = this.upRelays;
+                break;
+
+            case Down:
+                this.comms = this.downRelays;
+                break;
+
+        }
+
+        for (Communicator r : comms){
             if (r instanceof Relay){
-                ((Relay)r).sendUp(s);
+                ((Relay)r).propagate(s);
             }
             else if (r instanceof Subsystem){
                 ((Subsystem)r).destination(s);
             }
         }
     }
-
-    protected void sendDown(Stimulus s){
-        for (Communicator r : this.downRelays){
-            if (r instanceof Relay){
-                ((Relay)r).sendDown(s);
-            }
-            else if (r instanceof Subsystem){
-                ((Subsystem)r).destination(s);
-            }
-        }
-    }
-
 }

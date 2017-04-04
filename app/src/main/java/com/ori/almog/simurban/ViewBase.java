@@ -14,3 +14,4 @@ class ViewBase {
         this.bg.setColor(0xff000000);
     };
 }
+

@@ -10,9 +10,6 @@ public abstract class Subsystem extends Communicator {
         this.stimuli = new ArrayList<>();
     }
 
-    protected void destination(Stimulus s){
-        this.stimuli.add(s);
-    }
-
+    abstract protected void destination(Stimulus s);
     abstract protected void compute();
 }

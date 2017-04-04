@@ -1,9 +1,11 @@
 package com.ori.almog.simurban;
 
 import android.content.res.AssetManager;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 class UIProvider {

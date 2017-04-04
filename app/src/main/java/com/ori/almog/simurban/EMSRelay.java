@@ -1,23 +1,20 @@
 package com.ori.almog.simurban;
 
-public class Weather extends Subsystem {
+class EMSRelay extends Subsystem {
 
-    private int someVariable;
-    private int myvalue;
+    private Relay ems;
 
-    public Weather(){
-
+    public EMSRelay(){
+        this.ems = new Relay();
     }
 
     @Override
     protected void destination(Stimulus s) {
-
+        ems.propagate(s);
     }
 
     @Override
     protected void compute() {
-
-
 
     }
 }
