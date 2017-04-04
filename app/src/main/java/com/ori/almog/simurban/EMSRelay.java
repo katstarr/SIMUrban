@@ -2,10 +2,11 @@ package com.ori.almog.simurban;
 
 class EMSRelay extends Subsystem {
 
-    private Relay ems;
+    public Relay ems;
 
     public EMSRelay(){
         this.ems = new Relay();
+        this.ems.name = "EMS Relay component";
     }
 
     @Override

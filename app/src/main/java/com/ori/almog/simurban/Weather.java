@@ -5,8 +5,9 @@ public class Weather extends Subsystem {
     private int someVariable;
     private int myvalue;
 
-    public Weather(){
-
+    public Weather() {
+        super();
+        this.name = "Weather system";
     }
 
     @Override

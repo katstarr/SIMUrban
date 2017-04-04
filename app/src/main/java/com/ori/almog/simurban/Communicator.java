@@ -7,13 +7,17 @@ public class Communicator {
     protected ArrayList<Communicator> upRelays = new ArrayList<>();
     protected ArrayList<Communicator> downRelays = new ArrayList<>();
 
-    public Communicator(){}
+    public String name;
 
-    protected void bindUpRelay(Relay r){
+    public Communicator(){
+        this.name = "Generic communicator";
+    }
+
+    protected void bindUpRelay(Communicator r){
         this.upRelays.add(r);
     }
 
-    protected void bindDownRelay(Relay r) {
+    protected void bindDownRelay(Communicator r) {
         this.downRelays.add(r);
     }
 }

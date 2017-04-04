@@ -14,10 +14,14 @@ class RootController extends Subsystem {
     @Override
     protected void destination(Stimulus s) {
 
+        //Stimulus has arrived, figure out what to do with it
+
     }
 
     @Override
     protected void compute() {
+
+        //Clock cycle, what do?
 
     }
 

@@ -33,7 +33,7 @@ public class GameManager {
     //Asset manager is used to get pictures, fonts, etc.
     private AssetManager assetManager;
 
-    //Provides basic UI elements for soem screen
+    //Provides basic UI elements for some screen
     private UIProvider uiProvider;
 
     private boolean running = false;
@@ -67,13 +67,29 @@ public class GameManager {
                 RootController rc = new RootController();
 
                 //Create relays here
+                Relay centralRelay = new Relay();
+                EMSRelay emsRelay = new EMSRelay();
 
 
                 //Create subsystems here
+                Weather weather = new Weather();
 
 
+                //Bind relays (lower -> upper)
+                bind(centralRelay, rc);
+                bind(emsRelay.ems, centralRelay); //Special case
 
-                //Bind relays
+                //SUBSYSTEM BINDINGS
+                bind(weather, centralRelay);
+                //bind(church, centralRelay);
+                //bind(mall, centralRelay);
+                //bind(residences, centralRelay);
+                //bind(school, centralRelay);
+
+                //EMS BINDINGS (.ems on purpose)
+                //bind(fire, emsRelay.ems);
+                //bind(police, emsRelay.ems);
+                //bind(hospital, emsRelay.ems);
 
 
                 //Enter game loop (each loop = one day)
@@ -202,5 +218,14 @@ public class GameManager {
             case Options:
                 break;
         }
+    }
+
+    private void bind(Communicator lower, Communicator upper){
+        if (upper instanceof EMSRelay){
+            lower.bindUpRelay(((EMSRelay)upper).ems);
+        } else {
+            lower.bindUpRelay(upper);
+        }
+        upper.bindDownRelay(lower);
     }
 }

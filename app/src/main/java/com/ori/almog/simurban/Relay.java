@@ -6,7 +6,10 @@ public class Relay extends Communicator {
 
     private ArrayList<Communicator> comms;
 
-    public Relay(){}
+    public Relay(){
+        super();
+        this.name = "Generic relay";
+    }
 
     protected void propagate(Stimulus s){
 
