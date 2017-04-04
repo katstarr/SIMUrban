@@ -12,8 +12,7 @@ public abstract class Subsystem extends Communicator {
 
     protected void destination(Stimulus s){
         this.stimuli.add(s);
-    };
+    }
+
     abstract protected void compute();
-
-
 }

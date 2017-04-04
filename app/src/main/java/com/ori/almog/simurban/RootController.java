@@ -25,10 +25,10 @@ public class RootController extends Subsystem {
         put("playGroundSize", "overallHappiness", new Change(Direction.Increases, 1.0));
 
         //mall size increases overallHappiness with mutipler of 2.0
-        put("mallSize","overallHappiness", new Change(Direction.Increases,2.0));
-        put("mallSize","numberofSassyTeens", new Change(Direction.Increases,1.0));
-        put("percentofNoodles","churchSize",new Change(Direction.Increases,1.0));
-        put("churchSize","overallHappiness",new Change(Direction.Increases,1.0));
+        put("mallSize", "overallHappiness", new Change(Direction.Increases, 2.0));
+        put("mallSize", "numberOfSassyTeens", new Change(Direction.Increases, 1.0));
+        put("percentOfNoodles", "churchSize", new Change(Direction.Increases, 1.0));
+        put("churchSize", "overallHappiness", new Change(Direction.Increases, 1.0));
 
         //TODO: Add the rest of them
 
