@@ -1,5 +1,7 @@
 package com.ori.almog.simurban;
 
+import java.util.ArrayList;
+
 class EMSRelay extends Subsystem {
 
     public Relay ems;
@@ -7,6 +9,11 @@ class EMSRelay extends Subsystem {
     public EMSRelay(){
         this.ems = new Relay();
         this.ems.name = "EMS Relay component";
+    }
+
+    @Override
+    protected ArrayList<DrawableEntity> getDraws() {
+        return null;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.ori.almog.simurban;
 
+import java.util.ArrayList;
+
 public class Weather extends Subsystem {
 
     private int someVariable;
@@ -8,6 +10,11 @@ public class Weather extends Subsystem {
     public Weather() {
         super();
         this.name = "Weather system";
+    }
+
+    @Override
+    protected ArrayList<DrawableEntity> getDraws() {
+        return null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ori.almog.simurban;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 class RootController extends Subsystem {
@@ -9,6 +10,11 @@ class RootController extends Subsystem {
     public RootController(){
         this.matrix = new HashMap<>();
         this.init();
+    }
+
+    @Override
+    protected ArrayList<DrawableEntity> getDraws() {
+        return null;
     }
 
     @Override
