@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 class EMSRelay extends Subsystem {
 
-    public Relay ems;
-
     public EMSRelay(){
-        this.ems = new Relay();
-        this.ems.name = "EMS Relay component";
+        super();
+        this.name = "EMS Relay";
     }
 
     @Override
@@ -18,7 +16,7 @@ class EMSRelay extends Subsystem {
 
     @Override
     protected void destination(Stimulus s) {
-        ems.propagate(s);
+        this.propagate(s);
     }
 
     @Override

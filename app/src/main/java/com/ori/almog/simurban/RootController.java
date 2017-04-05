@@ -55,10 +55,12 @@ class RootController extends Subsystem {
 
                 RESIDENCES
 
-
                 MALL
                     -mallSize
                     -sassyTeenCount
+
+                EMS-DISPATCH
+                    -dispatchCount
 
                 EMS-HOSPITAL
                     -medicineCount
@@ -68,7 +70,6 @@ class RootController extends Subsystem {
                 EMS-FIRE
 
                 EMS-POLICE
-
 
          */
 
@@ -97,6 +98,9 @@ class RootController extends Subsystem {
         put("mallSize",             "overallHappiness",         new Change(Direction.Increases, 2.0));
         put("mallSize",             "sassyTeenCount",           new Change(Direction.Increases, 1.0));
 
+
+        /* EMS-DISPATCH */
+        put("dispatchCount",        "averageERWait",            new Change(Direction.Decreases, 1.0));
 
         /* EMS-HOSPITAL */
         put("medicineCount",        "overallHealth",            new Change(Direction.Increases, 1.0));

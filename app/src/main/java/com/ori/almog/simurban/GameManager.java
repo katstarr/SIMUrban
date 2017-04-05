@@ -60,7 +60,7 @@ public class GameManager {
                 RootController rc = new RootController();
 
                 //Create relays here
-                Relay centralRelay = new Relay();
+                Communicator centralRelay = new Communicator();
                 EMSRelay emsRelay = new EMSRelay();
 
 
@@ -70,7 +70,7 @@ public class GameManager {
 
                 //Bind relays (lower -> upper)
                 bind(centralRelay, rc);
-                bind(emsRelay.ems, centralRelay); //Special case
+                bind(emsRelay, centralRelay);
 
                 //SUBSYSTEM BINDINGS
                 bind(weather, centralRelay);
@@ -79,10 +79,10 @@ public class GameManager {
                 //bind(residences, centralRelay);
                 //bind(school, centralRelay);
 
-                //EMS BINDINGS (.ems on purpose)
-                //bind(fire, emsRelay.ems);
-                //bind(police, emsRelay.ems);
-                //bind(hospital, emsRelay.ems);
+                //EMS BINDINGS
+                //bind(fire, emsRelay);
+                //bind(police, emsRelay);
+                //bind(hospital, emsRelay);
 
 
                 //Enter game loop (each loop = one day)
@@ -214,11 +214,7 @@ public class GameManager {
     }
 
     private void bind(Communicator lower, Communicator upper){
-        if (upper instanceof EMSRelay){
-            lower.bindUpRelay(((EMSRelay)upper).ems);
-        } else {
-            lower.bindUpRelay(upper);
-        }
+        lower.bindUpRelay(upper);
         upper.bindDownRelay(lower);
     }
 }
