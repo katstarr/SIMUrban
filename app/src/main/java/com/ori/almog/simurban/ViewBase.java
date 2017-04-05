@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 
 class ViewBase {
-    public ArrayList<Rectangle> elements;
+    public ArrayList<DrawableEntity> elements;
     public Paint bg;
 
     public ViewBase(){

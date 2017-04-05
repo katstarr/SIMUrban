@@ -20,9 +20,9 @@ class DrawManager{
     private Paint BLACK;
 
     public ViewBase base;
-    public ArrayList<Rectangle> draws;
+    public ArrayList<DrawableEntity> draws;
 
-    public Rectangle cursor;
+    public DrawableEntity cursor;
 
     public DrawManager(ViewBase init){
 
@@ -36,7 +36,7 @@ class DrawManager{
         this.BLACK.setColor(0xff000000);
         this.BLACK.setTextSize(100);
 
-        this.cursor = new Rectangle(new Point(0,0), new Point(100,100), 0xffff0000, "");
+        this.cursor = new DrawableEntity(new Point(0,0), new Point(100,100), 0xffff0000, "");
     }
 
     public void resetDraws(){
@@ -52,39 +52,39 @@ class DrawManager{
         canvas.drawRect(0, 0, x, y, this.base.bg);
 
         for (int i = 0; i < this.base.elements.size(); i++){
-            Rectangle e = this.base.elements.get(i);
+            DrawableEntity e = this.base.elements.get(i);
             drawEntity(e, canvas);
         }
 
         for (int i = 0; i < this.draws.size(); i++){
-            Rectangle e = this.draws.get(i);
+            DrawableEntity e = this.draws.get(i);
             drawEntity(e, canvas);
         }
 
         this.drawEntity(this.cursor, canvas);
     }
 
-    private void drawEntity(Rectangle e, Canvas canvas){
+    private void drawEntity(DrawableEntity e, Canvas canvas){
         if (e instanceof Button) {
             //canvas.drawRect(e.topleft.x, e.topleft.y, e.bottomRight.x, e.bottomRight.y, e.back);
             canvas.drawRoundRect(e.topLeft.x, e.topLeft.y, e.bottomRight.x, e.bottomRight.y, 25.0f, 25.0f, e.back);
             canvas.drawText(((Button) e).text, 0, ((Button) e).text.length(), ((Button) e).textSource.x, ((Button) e).textSource.y, ((Button) e).font);
         }
 
-        else if (e instanceof Rectangle){
+        else if (e instanceof DrawableEntity){
             canvas.drawRect(e.topLeft.x, e.topLeft.y, e.bottomRight.x, e.bottomRight.y, e.back);
         }
     }
 }
 
-class Rectangle {
+class DrawableEntity {
 
     public Point topLeft;
     public Point bottomRight;
     public Paint back;
     public String action = "";
 
-    public Rectangle(Point topleft, Point bottomRight, int col, String action){
+    public DrawableEntity(Point topleft, Point bottomRight, int col, String action){
         this.topLeft = topleft;
         this.bottomRight = bottomRight;
 
@@ -95,8 +95,7 @@ class Rectangle {
     }
 }
 
-
-class Button extends Rectangle{
+class Button extends DrawableEntity {
     public String text;
     public Paint font;
     public Point textSource;

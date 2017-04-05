@@ -27,19 +27,87 @@ class RootController extends Subsystem {
 
     private void init(){
 
-        //playground size increases enrollment with a multiplier of 1
-        put("playGroundSize", "enrollment", new Change(Direction.Increases, 1.0));
+        /*
+            VARIABLE LIST
 
-        //playground size increases overall happiness with a multiplier of 1
-        put("playGroundSize", "overallHappiness", new Change(Direction.Increases, 1.0));
+                GLOBAL
+                    -overallHappiness
+                    -overallWealth
+                    -overallHealth
+                    -overallSpaghetti -> LOL
+                    -population
 
-        //mall size increases overallHappiness with multiplier of 2.0
-        put("mallSize", "overallHappiness", new Change(Direction.Increases, 2.0));
-        put("mallSize", "numberOfSassyTeens", new Change(Direction.Increases, 1.0));
-        put("percentOfNoodles", "churchSize", new Change(Direction.Increases, 1.0));
-        put("churchSize", "overallHappiness", new Change(Direction.Increases, 1.0));
+                WEATHER
+                    -cloudCover
 
-        //TODO: Add the rest of them
+                SCHOOL
+                    -playgroundSize
+                    -classroomCount
+
+                CHURCH
+                    -churchSize
+
+                RESIDENCES
+
+
+                MALL
+                    -mallSize
+                    -sassyTeenCount
+
+                EMS-HOSPITAL
+                    -medicineCount
+                    -doctorCount
+                    -averageERWait
+
+                EMS-FIRE
+
+                EMS-POLICE
+
+
+         */
+
+        /* WEATHER */
+        put("cloudCover",           "overallHappiness",         new Change(Direction.Decreases, 1.0));
+        put("cloudCover",           "sickPercent",              new Change(Direction.Increases, 1.0));
+
+
+        /* SCHOOL */
+        put("playgroundSize",       "averageERWait",            new Change(Direction.Increases, 1.0));
+
+
+
+
+        /* CHURCH */
+        put("percentOfNoodles",     "churchSize",               new Change(Direction.Increases, 1.0));
+        put("churchSize",           "overallHappiness",         new Change(Direction.Increases, 1.0));
+
+
+        /* RESIDENCES */
+
+
+
+
+        /* MALL */
+        put("mallSize",             "overallHappiness",         new Change(Direction.Increases, 2.0));
+        put("mallSize",             "sassyTeenCount",           new Change(Direction.Increases, 1.0));
+
+
+        /* EMS-HOSPITAL */
+        put("medicineCount",        "overallHealth",            new Change(Direction.Increases, 1.0));
+        put("doctorCount",          "overallHealth",            new Change(Direction.Increases, 1.5));
+        put("doctorCount",          "averageERWait",            new Change(Direction.Decreases, 1.0));
+
+
+        /* EMS-FIRE */
+
+
+
+
+        /* EMS-POLICE */
+
+
+
+
 
     }
 

@@ -2,19 +2,12 @@ package com.ori.almog.simurban;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.provider.Contacts;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
-import java.util.concurrent.RunnableFuture;
 
 import static com.ori.almog.simurban.State.*;
 import static com.ori.almog.simurban.State.MainMenu;
@@ -124,7 +117,7 @@ public class GameManager {
 
 
                     //Just for fun (remove this later)
-                    drawManager.draws.add(new Rectangle(new Point(rand.nextInt(500), rand.nextInt(500)), new Point(500+rand.nextInt(500), 500+rand.nextInt(500)), rand.nextInt(), ""));
+                    drawManager.draws.add(new DrawableEntity(new Point(rand.nextInt(500), rand.nextInt(500)), new Point(500+rand.nextInt(500), 500+rand.nextInt(500)), rand.nextInt(), ""));
                     Log.i("DEBUG", "Made a rect");
 
                     //Sleep for 1 second (indicate new day..?)
@@ -170,7 +163,7 @@ public class GameManager {
         Log.i("DEBUG", "Pressed: " + touch.toString());
 
         for (int i = 0; i < this.drawManager.base.elements.size(); i++){
-            Rectangle r = this.drawManager.base.elements.get(i);
+            DrawableEntity r = this.drawManager.base.elements.get(i);
             if (within(r.topLeft, r.bottomRight, touch)){
                 press(r.action);
                 break;
